@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+  <h1>Exam setup</h1>
+  <p class="muted">Select subjects and configure your focus session.</p>
+  <form method="post" class="form">
+    <fieldset>
+      <legend>Subjects</legend>
+      <div class="chip-grid">
+        {% for subject in subjects %}
+          <label class="chip">
+            <input type="checkbox" name="subjects" value="{{ subject[0] }}" />
+            <span>{{ subject[1] }}</span>
+          </label>
+        {% endfor %}
+      </div>
+      <p class="helper">Leave blank to include all subjects.</p>
+    </fieldset>
+    <label>
+      Question count (max 100)
+      <input type="number" name="count" min="1" max="100" value="10" />
+    </label>
+    <label>
+      Time limit (minutes)
+      <input type="number" name="time_limit" min="5" max="180" value="15" />
+    </label>
+    <label>
+      Mode
+      <select name="mode">
+        <option value="random">Random</option>
+        <option value="progress">Progress</option>
+      </select>
+    </label>
+    <button type="submit" class="primary">Begin Exam</button>
+  </form>
+</section>
+{% endblock %}

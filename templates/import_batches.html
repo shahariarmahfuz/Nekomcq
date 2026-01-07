@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+  <h1>Import Batches</h1>
+  <form method="post" enctype="multipart/form-data" class="form">
+    <label>
+      JSON File
+      <input type="file" name="payload" accept="application/json" required />
+    </label>
+    <button type="submit" class="primary">Upload</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Recent batches</h2>
+  <ul class="list">
+    {% for batch in batches %}
+      <li class="list-row">
+        <div>
+          <strong>{{ batch[1] }}</strong>
+          <p class="muted">{{ batch[2] }}</p>
+        </div>
+        <form method="post" action="{{ url_for('delete_import', batch_id=batch[0]) }}">
+          <button type="submit" class="danger">Delete batch</button>
+        </form>
+      </li>
+    {% else %}
+      <li class="muted">No batches uploaded.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

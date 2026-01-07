@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+  <h1>Create account</h1>
+  <p class="muted">Build your study workspace with a clean, focused profile.</p>
+  <form method="post" class="form">
+    <label>
+      Name
+      <input type="text" name="name" required />
+    </label>
+    <label>
+      Email
+      <input type="email" name="email" required />
+    </label>
+    <label>
+      Password
+      <input type="password" name="password" required />
+    </label>
+    <button type="submit" class="primary">Sign up</button>
+  </form>
+  <p class="helper">Already registered? <a href="{{ url_for('login') }}">Log in</a>.</p>
+</section>
+{% endblock %}

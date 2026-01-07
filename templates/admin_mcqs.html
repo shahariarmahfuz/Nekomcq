@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+  <div class="header-row">
+    <div>
+      <h1>MCQ Management</h1>
+      <p class="muted">100 questions per page.</p>
+    </div>
+    <a class="primary" href="{{ url_for('new_mcq') }}">Add MCQ</a>
+  </div>
+</section>
+
+<section class="card">
+  <ul class="list">
+    {% for mcq in mcqs %}
+      <li class="list-row">
+        <div>
+          <strong>{{ mcq[1] or 'Unassigned' }}</strong>
+          <p class="muted">{{ mcq[2] }}</p>
+        </div>
+        <details class="menu">
+          <summary aria-label="More actions">
+            <i class="ri-more-2-fill"></i>
+          </summary>
+          <div class="menu-panel">
+            <a class="ghost" href="{{ url_for('edit_mcq', mcq_id=mcq[0]) }}">Edit</a>
+            <form method="post" action="{{ url_for('delete_mcq', mcq_id=mcq[0]) }}">
+              <button type="submit" class="danger">Delete</button>
+            </form>
+          </div>
+        </details>
+      </li>
+    {% else %}
+      <li class="muted">No MCQs created yet.</li>
+    {% endfor %}
+  </ul>
+  <div class="pagination">
+    <a class="ghost" href="{{ url_for('admin_mcqs', page=max(page-1, 1)) }}">Previous</a>
+    <span>Page {{ page }} of {{ total_pages }}</span>
+    <a class="ghost" href="{{ url_for('admin_mcqs', page=min(page+1, total_pages)) }}">Next</a>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Bulk import</h2>
+  <p class="muted">Upload JSON to create an import batch.</p>
+  <a class="ghost" href="{{ url_for('import_batches') }}">Manage imports</a>
+</section>
+{% endblock %}

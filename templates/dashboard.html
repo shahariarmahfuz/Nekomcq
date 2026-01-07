@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+  <h1>Dashboard</h1>
+  <p class="muted">Study summary for focused practice.</p>
+  <div class="stats-grid">
+    <div class="stat">
+      <span>Total subjects</span>
+      <strong>{{ subjects|length }}</strong>
+    </div>
+    <div class="stat">
+      <span>Total questions</span>
+      <strong>{{ total_questions }}</strong>
+    </div>
+    <div class="stat">
+      <span>Attempted</span>
+      <strong>{{ attempted }}</strong>
+    </div>
+    <div class="stat">
+      <span>Accuracy</span>
+      <strong>{{ accuracy }}%</strong>
+    </div>
+  </div>
+  <div class="summary">
+    <div>
+      <span>Correct</span>
+      <strong class="success">{{ correct }}</strong>
+    </div>
+    <div>
+      <span>Incorrect</span>
+      <strong class="danger">{{ incorrect }}</strong>
+    </div>
+    <div>
+      <span>Trend</span>
+      <strong>{{ improvement }}</strong>
+    </div>
+  </div>
+  <div class="actions">
+    <a class="primary" href="{{ url_for('exam_setup') }}">Start Exam</a>
+    <a class="ghost" href="{{ url_for('admin_subjects') }}">Admin Subjects</a>
+    <a class="ghost" href="{{ url_for('admin_mcqs') }}">Admin MCQs</a>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Subjects</h2>
+  <ul class="list">
+    {% for subject in subjects %}
+      <li>
+        <span>{{ subject[1] }}</span>
+        <span class="muted">{{ subject_totals.get(subject[0], 0) }} MCQs</span>
+      </li>
+    {% else %}
+      <li class="muted">No subjects added yet.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}
