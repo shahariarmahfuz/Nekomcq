@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+  <h1>Subject Management</h1>
+  <form method="post" class="form inline">
+    <label>
+      Add new subject
+      <input type="text" name="name" placeholder="Subject name" required />
+    </label>
+    <button type="submit" class="primary">Add</button>
+  </form>
+</section>
+
+<section class="card">
+  <h2>Existing subjects</h2>
+  <ul class="list">
+    {% for subject in subjects %}
+      <li class="list-row">
+        <div>
+          <strong>{{ subject[1] }}</strong>
+        </div>
+        <details class="menu">
+          <summary aria-label="More actions">
+            <i class="ri-more-2-fill"></i>
+          </summary>
+          <div class="menu-panel">
+            <form method="post" action="{{ url_for('rename_subject', subject_id=subject[0]) }}">
+              <input type="text" name="name" placeholder="Rename" />
+              <button type="submit" class="ghost">Save</button>
+            </form>
+            <form method="post" action="{{ url_for('delete_subject', subject_id=subject[0]) }}">
+              <button type="submit" class="danger">Delete</button>
+            </form>
+          </div>
+        </details>
+      </li>
+    {% else %}
+      <li class="muted">No subjects created yet.</li>
+    {% endfor %}
+  </ul>
+</section>
+{% endblock %}

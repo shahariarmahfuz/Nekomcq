@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+  <h1>Results</h1>
+  <div class="stats-grid">
+    <div class="stat">
+      <span>Score</span>
+      <strong>{{ correct }} / {{ total }}</strong>
+    </div>
+    <div class="stat">
+      <span>Correct</span>
+      <strong class="success">{{ correct }}</strong>
+    </div>
+    <div class="stat">
+      <span>Incorrect</span>
+      <strong class="danger">{{ incorrect }}</strong>
+    </div>
+    <div class="stat">
+      <span>Accuracy</span>
+      <strong>{{ accuracy }}%</strong>
+    </div>
+  </div>
+  <div class="actions">
+    <a class="primary" href="{{ url_for('exam_setup') }}">Start New Exam</a>
+    <a class="ghost" href="{{ url_for('dashboard') }}">Back to Dashboard</a>
+  </div>
+</section>
+
+<section class="card">
+  <h2>Answer review</h2>
+  <div class="review-list">
+    {% for item in review %}
+      <div class="review-item">
+        <p><strong>Q{{ loop.index }}:</strong> {{ item.question }}</p>
+        <div class="review-options">
+          {% for key, value in item.options.items() %}
+            {% set is_correct = key == item.correct %}
+            {% set is_selected = key == item.selected %}
+            <div class="review-option {% if is_correct %}correct{% elif is_selected %}incorrect{% endif %}">
+              <span>{{ key }}.</span> {{ value }}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

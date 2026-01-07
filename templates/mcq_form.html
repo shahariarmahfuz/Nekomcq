@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+  <h1>{{ 'Edit MCQ' if mcq else 'Add MCQ' }}</h1>
+  <form method="post" class="form">
+    <label>
+      Subject
+      <select name="subject_id" required>
+        <option value="">Select</option>
+        {% for subject in subjects %}
+          <option value="{{ subject[0] }}" {% if mcq and subject[0] == mcq[1] %}selected{% endif %}>{{ subject[1] }}</option>
+        {% endfor %}
+      </select>
+    </label>
+    <label>
+      Question
+      <textarea name="question" required>{{ mcq[2] if mcq else '' }}</textarea>
+    </label>
+    <label>
+      Option A
+      <input type="text" name="option_a" value="{{ mcq[3] if mcq else '' }}" required />
+    </label>
+    <label>
+      Option B
+      <input type="text" name="option_b" value="{{ mcq[4] if mcq else '' }}" required />
+    </label>
+    <label>
+      Option C
+      <input type="text" name="option_c" value="{{ mcq[5] if mcq else '' }}" required />
+    </label>
+    <label>
+      Option D
+      <input type="text" name="option_d" value="{{ mcq[6] if mcq else '' }}" required />
+    </label>
+    <label>
+      Correct Option (A, B, C, D)
+      <input type="text" name="correct_option" value="{{ mcq[7] if mcq else '' }}" required />
+    </label>
+    <button type="submit" class="primary">Save MCQ</button>
+  </form>
+</section>
+{% endblock %}

@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="card">
+  <div class="header-row">
+    <div>
+      <h1>Question {{ index + 1 }} of {{ total }}</h1>
+      <p class="muted">Stay focused and pick the best answer.</p>
+    </div>
+    <div class="timer" data-start="{{ exam['start_time'] }}" data-limit="{{ exam['time_limit'] }}">
+      <i class="ri-timer-line"></i>
+      <span id="timer">--:--</span>
+    </div>
+  </div>
+
+  <div class="question-card">
+    <p>{{ question[1] }}</p>
+  </div>
+
+  <form method="post" class="form">
+    {% set selected = exam['answers'].get(question[0]|string) %}
+    <label class="option">
+      <input type="radio" name="answer" value="A" {% if selected == 'A' %}checked{% endif %} />
+      <span>{{ question[2] }}</span>
+    </label>
+    <label class="option">
+      <input type="radio" name="answer" value="B" {% if selected == 'B' %}checked{% endif %} />
+      <span>{{ question[3] }}</span>
+    </label>
+    <label class="option">
+      <input type="radio" name="answer" value="C" {% if selected == 'C' %}checked{% endif %} />
+      <span>{{ question[4] }}</span>
+    </label>
+    <label class="option">
+      <input type="radio" name="answer" value="D" {% if selected == 'D' %}checked{% endif %} />
+      <span>{{ question[5] }}</span>
+    </label>
+
+    <div class="nav-actions">
+      <button type="submit" name="prev" class="ghost" {% if index == 0 %}disabled{% endif %}>Previous</button>
+      <button type="submit" name="next" class="primary" {% if index + 1 == total %}disabled{% endif %}>Next</button>
+      <button type="submit" name="submit" class="danger">Submit</button>
+    </div>
+  </form>
+</section>
+<script>
+  const timerEl = document.getElementById('timer');
+  const timerWrapper = document.querySelector('.timer');
+  if (timerEl && timerWrapper) {
+    const start = Number(timerWrapper.dataset.start);
+    const limit = Number(timerWrapper.dataset.limit);
+    const interval = setInterval(() => {
+      const elapsed = Math.floor(Date.now() / 1000) - start;
+      const remaining = Math.max(limit - elapsed, 0);
+      const minutes = String(Math.floor(remaining / 60)).padStart(2, '0');
+      const seconds = String(remaining % 60).padStart(2, '0');
+      timerEl.textContent = `${minutes}:${seconds}`;
+      if (remaining === 0) {
+        clearInterval(interval);
+        window.location.href = "{{ url_for('exam_result') }}";
+      }
+    }, 1000);
+  }
+</script>
+{% endblock %}
